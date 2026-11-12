@@ -51,7 +51,7 @@ final class NetworkAddressService: ObservableObject {
 
     /// The system's own name per interface ("Wi-Fi", "Ethernet"), keyed by BSD
     /// name. An interface the system has no name for keeps no tag.
-    private static func connectionNames() -> [String: String] {
+    static func connectionNames() -> [String: String] {
         var names: [String: String] = [:]
         for interface in SCNetworkInterfaceCopyAll() as? [SCNetworkInterface] ?? [] {
             guard let bsd = SCNetworkInterfaceGetBSDName(interface) as String?,

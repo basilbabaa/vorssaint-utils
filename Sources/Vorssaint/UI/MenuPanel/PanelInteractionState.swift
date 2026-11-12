@@ -25,7 +25,8 @@ final class PanelInteractionState {
     /// here so the generic popover host does not know about individual tools,
     /// and operations stay protected even after the user switches panel tabs.
     var preventsPopoverDismissal: Bool {
-        viewKeepsPopoverOpen
+        UserDefaults.standard.bool(forKey: DefaultsKey.panelKeepOpen)
+            || viewKeepsPopoverOpen
             || isPresentingPopoverModal
             || AirPlayRouteManager.isPresentingPicker
             || HomebrewManager.shared.operationStatus?.isActive == true

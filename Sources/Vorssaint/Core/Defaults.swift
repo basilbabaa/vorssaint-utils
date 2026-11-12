@@ -663,6 +663,7 @@ enum DefaultsKey {
     static let commandBarFileScopes = "commandBarFileScopes"
     static let commandBarFileIgnores = "commandBarFileIgnores" // names a file search never shows
     static let panelUtilityCommandBar = "panelUtilityCommandBar"
+    static let panelKeepOpen = "panelKeepOpen"               // menu bar panel stays open until its icon is clicked again
     static let scratchpadRetention = "scratchpadRetention"   // never | day | week | month
     static let scratchpadCloseOnClickOutside = "scratchpadCloseOnClickOutside"
     static let scratchpadBackgroundOpacity = "scratchpadBackgroundOpacity" // opaque fill over the pad material (ScratchpadSupport.backgroundOpacityRange)
@@ -1895,6 +1896,7 @@ enum Defaults {
         DefaultsKey.commandBarPositionOffset: "",
         DefaultsKey.commandBarEmojiSkinTone: "",
         DefaultsKey.panelUtilityCommandBar: true,
+        DefaultsKey.panelKeepOpen: true,
         DefaultsKey.scratchpadRetention: ScratchpadRetention.never.rawValue,
         DefaultsKey.scratchpadCloseOnClickOutside: true,
         DefaultsKey.scratchpadBackgroundOpacity: 0.0,

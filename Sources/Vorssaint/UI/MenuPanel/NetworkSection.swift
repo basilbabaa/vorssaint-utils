@@ -414,6 +414,7 @@ private struct NetworkAddressBlock: View {
             PanelHiddenItemRow(title: l10n.s.networkIPAddresses,
                                systemImage: "network", isVisible: $isVisible)
         } else {
+            VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 6) {
                 Text(l10n.s.networkLocalIP)
                     .font(.system(size: 10))
@@ -435,6 +436,58 @@ private struct NetworkAddressBlock: View {
             .onAppear { service.refreshLocalAddresses() }
             .onReceive(SystemMonitor.shared.$snapshot) { _ in service.refreshLocalAddresses() }
             .onDisappear { service.cancel() }
+
+            ExternalAddressBlock()
+            }
         }
+    }
+}
+
+/// What each connection looks like from the internet. Unlike the local block
+/// this asks ipinfo.io, once per connection, while it is on screen.
+private struct ExternalAddressBlock: View {
+    @StateObject private var service = ExternalAddressService()
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 6) {
+            Text("External IP")
+                .font(.system(size: 10))
+                .foregroundStyle(.tertiary)
+            Spacer()
+            if service.addresses.isEmpty {
+                Text(service.isLoading ? "Checking…" : "—")
+                    .font(.system(size: 10.5, weight: .medium))
+                    .foregroundStyle(.secondary)
+            } else {
+                VStack(alignment: .trailing, spacing: 2) {
+                    ForEach(service.addresses) { entry in
+                        Text(Self.line(entry))
+                            .font(.system(size: 10.5, weight: .medium))
+                            .monospacedDigit()
+                            .lineLimit(1)
+                            .fixedSize()
+                            .foregroundStyle(entry.ip == nil ? .tertiary : .secondary)
+                            .textSelection(.enabled)
+                    }
+                }
+            }
+            Button {
+                service.refresh(force: true)
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 9, weight: .semibold))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.tertiary)
+            .help("Check again")
+            .disabled(service.isLoading)
+        }
+        .onAppear { service.refresh() }
+        .onDisappear { service.cancel() }
+    }
+
+    private static func line(_ entry: ExternalAddress) -> String {
+        guard let ip = entry.ip else { return "no route out (\(entry.connection))" }
+        return "\(ip) (\(entry.provider ?? entry.connection))"
     }
 }

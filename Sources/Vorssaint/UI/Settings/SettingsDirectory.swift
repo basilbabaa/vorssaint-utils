@@ -317,7 +317,8 @@ enum SettingsDirectory {
                                        keywords: [s.launchAtLogin, s.languageLabel,
                                                   FeatureStrings.appearance(language).label,
                                                   FeatureStrings.appearance(language).dark,
-                                                  FeatureStrings.feedback(language).sectionTitle] + liquidGlass,
+                                                  FeatureStrings.feedback(language).sectionTitle,
+                                                  FeatureStrings.scratchpad(language).keepOpen] + liquidGlass,
                                        // The first title of each feature places its sidebar row,
                                        // so these follow the sidebar's order.
                                        featureKeywords: [

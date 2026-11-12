@@ -17,6 +17,7 @@ struct GeneralSettings: View {
     @State private var loginPending = false
     @State private var loginRefreshID = UUID()
     @AppStorage(DefaultsKey.hotkeyEnabled) private var hotkeyEnabled = true
+    @AppStorage(DefaultsKey.panelKeepOpen) private var panelKeepOpen = true
 
     private var text: GeneralSettingsStrings { FeatureStrings.generalSettings(l10n.language) }
     private var appearanceStrings: AppearanceStrings { FeatureStrings.appearance(l10n.language) }
@@ -74,6 +75,13 @@ struct GeneralSettings: View {
                     .font(.caption)
                     .foregroundStyle(.red)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+            Divider()
+            SettingsRow(symbol: "pin", title: FeatureStrings.scratchpad(l10n.language).keepOpen,
+                        caption: "The menu bar panel stays open until you click its icon again, even when you click in other apps or switch panel tabs.") {
+                Toggle(FeatureStrings.scratchpad(l10n.language).keepOpen, isOn: $panelKeepOpen)
+                    .labelsHidden()
+                    .toggleStyle(.switch)
             }
             Divider()
             SettingsRow(symbol: "globe", title: l10n.s.languageLabel) {
